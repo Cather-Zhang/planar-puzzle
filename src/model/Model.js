@@ -35,8 +35,8 @@ export default class Model {
     }
 
     initialize(info) {
-        let numRows = parseInt(info.board.rows);
-        let numCols = parseInt(info.board.cols);
+        let numRows = parseInt(info.board.numRows);
+        let numCols = parseInt(info.board.numCols);
 
         this.puzzle = new Puzzle(numRows, numCols);
         this.victory = false;
