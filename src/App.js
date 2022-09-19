@@ -3,7 +3,21 @@ import logo from './logo.svg';
 import './App.css';
 import {layout} from './Layout.js';
 
+import Model from './model/Model.js';
+import {configuration_1} from './model/Model.js';
+
+var actualPuzzle = JSON.parse(JSON.stringify(configuration_1));
+
 function App() {
+
+  const [model, setModel] = React.useState(new model(actualPuzzle));
+
+  React.useEffect(()=>{
+  redrawCanvas(model, canvasRef.current, appRef.current);
+  }, [model]
+  )
+
+
   const appRef = React.useRef(null);
   const canvasRef = React.useRef(null);
 
