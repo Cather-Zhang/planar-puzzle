@@ -1,4 +1,4 @@
-export const configuration_1 = {
+const configuration_1 = {
     "name": "Configuration #1",
     "level": "1",
      "numRows" : "2",
@@ -12,7 +12,7 @@ export const configuration_1 = {
 };
 
 
-export const configuration_2 = {
+const configuration_2 = {
     "name": "Configuration #2",
     "level": "2",
      "numRows" : "4",
@@ -31,7 +31,7 @@ export const configuration_2 = {
 
 
 
-export const configuration_3 = {
+const configuration_3 = {
     "name": "Configuration #3",
     "level": "3",
      "numRows" : "8",
@@ -45,3 +45,5 @@ export const configuration_3 = {
         { "color" : "yellow", "row": "6", "column" : "7" } ],
     "unusedSquares" : []
 };
+
+export {configuration_1, configuration_2, configuration_3};

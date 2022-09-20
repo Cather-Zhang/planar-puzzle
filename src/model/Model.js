@@ -6,11 +6,26 @@ export class Coordinate {
 }
 
 export class MoveType {
-    constructor(deltar, deltac) {
-        this.deltar = deltar;
-        this.deltac = deltac;
+    constructor(dr, dc) {
+        this.deltar = dr;
+        this.deltac = dc;
+    }
+    
+    static parse(s) {
+        if ((s === "down")  || (s === "Down"))   { return Down; }
+        if ((s === "up")    || (s === "Up"))     { return Up; }
+        if ((s === "left")  || (s === "Left"))   { return Left; }
+        if ((s === "right") || (s === "Right"))  { return Right; }
+        
+        return NoMove;
     }
 }
+
+export const Down = new MoveType(1, 0, "down");
+export const Up = new MoveType(-1, 0, "up");
+export const Left = new MoveType(0, -1, "left");
+export const Right = new MoveType(0, 1, "right");
+export const NoMove = new MoveType(0, 0, "*");  // no move is possible
 
 export class Square {
     constructor(row, column, color) {
@@ -19,6 +34,16 @@ export class Square {
         this.color = color;
         this.count = 0;
     }
+
+    location() {
+        return new Coordinate(this.row, this.column);
+    }
+
+    copy() {
+        let s = new Square(this.row, this.column, this.color)
+        return s;
+    }
+
 }
 
 export class Puzzle {
@@ -27,6 +52,12 @@ export class Puzzle {
         this.colNum = colNum;
         this.selected = null;
     }
+
+    initialize(squares) {
+        // make sure to create NEW Piece objects
+        this.squares = squares.map(s => s.copy());
+    }
+
 }
 
 export default class Model {
