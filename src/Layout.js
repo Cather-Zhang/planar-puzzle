@@ -5,7 +5,7 @@ export const layout = {
     },
     
     Appmain: {
-        backgroundColor: "#320453",
+        backgroundColor: "#F0CE97",
         height: "100vh",
         width: "100vw",
         
@@ -22,7 +22,7 @@ export const layout = {
         left: 300,
         top: 100,
         color: "yellow",
-        backgroundColor: "#320453",
+        backgroundColor: "#F0CE97",
         width: 80,
     }
 }

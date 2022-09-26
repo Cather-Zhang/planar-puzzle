@@ -43,7 +43,6 @@ export class Square {
         let s = new Square(this.row, this.column, this.color)
         return s;
     }
-
 }
 
 export class Puzzle {
@@ -61,16 +60,17 @@ export class Puzzle {
 }
 
 export default class Model {
+    //info is the json strings in Puzzle.js for different configurations
     constructor(info) {
         this.initialize(info);
     }
 
     initialize(info) {
-        let numRows = parseInt(info.board.numRows);
-        let numCols = parseInt(info.board.numCols);
+        let numRows = parseInt(info.numRows);
+        let numCols = parseInt(info.numCols);
 
         this.puzzle = new Puzzle(numRows, numCols);
         this.victory = false;
-        this.level = parseInt(info.board.level);
+        this.level = parseInt(info.level);
     }
 }
