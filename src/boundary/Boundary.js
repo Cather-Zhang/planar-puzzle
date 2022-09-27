@@ -5,6 +5,8 @@ const LEVEL2OFFSETH = 120;
 const LEVEL3OFFSETH = 20;
 const BOXSIZE = 60;
 const OFFSET = 5;
+const TEXTOFFSETX = 15;
+const TEXTOFFSETY = 35;
 
 export class Rectangle {
     constructor(x, y, width, height) {
@@ -58,11 +60,22 @@ export function drawPuzzle(ctx, level, puzzle, showLabels) {
     puzzle.squares.forEach(square => {
         let rect = computeRectangle(square, level);
         ctx.fillStyle = square.color;
+        ctx.fillRect(rect.x, rect.y, rect.width, rect.height);
+        let label = "";
+        //console.log(square.label);
+        if (square.label === "" && !(square.count === 0)) {
+            label = square.count;
+        }
+        else if (!(square.label === "")) {
+            label = square.label;
+        }
         ctx.strokeStyle = "black";
         if (square === selected) {
             ctx.strokeRect(rect.x, rect.y, rect.width, rect.height);
         }
-        ctx.fillRect(rect.x, rect.y, rect.width, rect.height);
+        ctx.fillStyle = "black";
+        ctx.font = "30px Arial";
+        ctx.fillText(label, rect.x + TEXTOFFSETX, rect.y+ TEXTOFFSETY);
     })
 
     if (level === 1) {

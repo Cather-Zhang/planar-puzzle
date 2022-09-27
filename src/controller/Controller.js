@@ -1,5 +1,6 @@
 import { computeRectangle } from "../boundary/Boundary.js";
 
+
 export function selectSquare(model, canvas, event) {
     const canvasRect = canvas.getBoundingClientRect();
 
@@ -31,6 +32,6 @@ export function selectSquare(model, canvas, event) {
 export function extend(model, dir) {
     let selected = model.puzzle.selected;
     if (!selected) {return model;}
-    model.puzzle.extend();
+    model.puzzle.extend(dir);
     return model.copy();
 }

@@ -20,11 +20,12 @@ export const NoMove = new MoveType(0, 0, "*");  // no move is possible
 
 export class Square {
 
-    constructor(row, column, color, count) {
+    constructor(row, column, color, count, label) {
         this.row = row;
         this.column = column;
         this.color = color;
         this.count = count;
+        this.label = label;
     }
 
     location() {
@@ -32,9 +33,10 @@ export class Square {
     }
 
     copy() {
-        let s = new Square(this.row, this.column, this.color, this.count)
+        let s = new Square(this.row, this.column, this.color, this.count, this.label)
         return s;
     }
+
 }
 
 export class Puzzle {
@@ -61,7 +63,7 @@ export class Puzzle {
         var allSquares = [];
         for (let row = 0; row < this.rowNum; row++) {
             for (let col = 0; col < this.colNum; col++) {
-                allSquares.push(new Square(row, col, "white", 0));
+                allSquares.push(new Square(row, col, "white", 0, ""));
             }
         }
         return allSquares;
@@ -89,7 +91,12 @@ export class Puzzle {
      * @param {*} dir 
      */
     extend(dir) {
-
+        let neighbor = this.getNeighbor(dir);
+        if (!neighbor) {return null;}
+        if (this.canExtend(dir)) {
+            neighbor.color = this.selected.color;
+            neighbor.count = this.selected.count + 1;
+        }
     }
 
 
@@ -100,7 +107,11 @@ export class Puzzle {
      * @param {*} dir MoveType
      */
     canExtend(dir) {
-
+        let selected = this.selected;
+        if (!selected || selected.color === "black") {return false;}
+        let neighbor = this.getNeighbor(dir);
+        if (!neighbor) {return false;}
+        return neighbor.color === "white" && !(selected.color === "white") ;
     }
 
 
@@ -109,7 +120,15 @@ export class Puzzle {
      * @param {*} dir 
      */
     getNeighbor(dir) {
-
+        let selected = this.selected;
+        if (!selected) {return null;}
+        if (selected.row === 0 && dir === Up) {return null;}
+        if (selected.row === (this.rowNum - 1) && dir === Down) {return null;}
+        if (selected.column === (this.colNum - 1) && dir === Right) {return null;}
+        if (selected.column === 0 && dir === Left) {return null;}
+        let r = selected.row + dir.deltar;
+        let c = selected.column + dir.deltac;
+        return this.squares[r * this.colNum + c];
     }
 
 }
@@ -131,17 +150,19 @@ export default class Model {
         for (let s of info.baseSquares) {
             let r = parseInt(s.row);
             let c = parseInt(s.column);
-            this.puzzle.squares[r*numRows+c].color = s.color;
+            this.puzzle.squares[r*numCols+c].color = s.color;
+            this.puzzle.squares[r*numCols+c].label = s.label;
         }
         for (let s of info.unusedSquares) {
             let r = parseInt(s.row);
             let c = parseInt(s.column);
-            this.puzzle.squares[r*numRows+c].color = "black";
+            this.puzzle.squares[r*numCols+c].color = "black";
         }
         this.victory = false;
         this.level = parseInt(info.level);
 
         this.showLabels = false;
+        //console.log(this.puzzle.squares);
     }
 
     copy() {
