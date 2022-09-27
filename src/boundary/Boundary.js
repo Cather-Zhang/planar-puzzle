@@ -90,7 +90,12 @@ export function computeRectangle(square, level) {
     else if (level === 2) {
         levelOffh = LEVEL2OFFSETH;
     }
-
     let rect = new Rectangle(BOXSIZE*c.column + OFFSET + levelOffw, BOXSIZE*c.row + OFFSET + levelOffh, BOXSIZE-2*OFFSET, BOXSIZE-2*OFFSET);
+    /*
+    console.log("in computeRectangle");
+    console.log("square "+ "row" + square.row + " column " + square.column + " " + square.color);
+    console.log("rectangle " + rect.x + " " + rect.y);
+    console.log("done computeRectangle")
+    */
     return rect;
 }

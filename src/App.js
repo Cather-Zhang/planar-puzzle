@@ -12,7 +12,7 @@ var level2 = JSON.parse(JSON.stringify(configuration_2));
 var level3 = JSON.parse(JSON.stringify(configuration_3));
 
 function App() {
-  const [model, setModel] = React.useState(new Model(level1));
+  const [model, setModel] = React.useState(new Model(level3));
   const appRef = React.useRef(null);
   const canvasRef = React.useRef(null);
 
@@ -21,7 +21,6 @@ function App() {
   }, [model]);
 
   const handleClick = (e) => {
-    console.log("clicked")
     let newModel = selectSquare(model, canvasRef.current, e);
     setModel(newModel);
   }
