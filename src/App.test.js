@@ -8,10 +8,10 @@ import { configuration_1 } from './model/Puzzle.js'
 
 var actualPuzzle = JSON.parse(JSON.stringify(configuration_1));
 
-var model = new Model(actualPuzzle)
+var model = new Model(actualPuzzle);
 
 
-test('victory is false when model initialized', () => {
+test('model level 1 initialize test', () => {
   expect(model.victory).toBe(false);
   expect(model.puzzle.rowNum).toBe(2);
   expect(model.puzzle.colNum).toBe(4);

@@ -50,11 +50,22 @@ export class Puzzle {
         this.rowNum = rowNum;
         this.colNum = colNum;
         this.selected = null;
+        this.squares = this.init();
     }
 
     initialize(squares) {
         // make sure to create NEW Piece objects
         this.squares = squares.map(s => s.copy());
+    }
+
+    init() {
+        var allSquares = [];
+        for (let row = 0; row < this.rowNum; row++) {
+            for (let col = 0; col < this.colNum; col++) {
+                allSquares.push(new Square(row, col, "white"));
+            }
+        }
+        return allSquares;
     }
 
 }
@@ -68,9 +79,26 @@ export default class Model {
     initialize(info) {
         let numRows = parseInt(info.numRows);
         let numCols = parseInt(info.numCols);
-
+        
+        
         this.puzzle = new Puzzle(numRows, numCols);
+        
+        for (let s of info.baseSquares) {
+            let r = parseInt(s.row);
+            let c = parseInt(s.column);
+            console.log(r)
+            this.puzzle.squares[r*numRows+c].color = s.color;
+        }
+        for (let s of info.unusedSquares) {
+            let r = parseInt(s.row);
+            let c = parseInt(s.column);
+            console.log(r)
+            this.puzzle.squares[r*numRows+c].color = "black";
+        }
         this.victory = false;
         this.level = parseInt(info.level);
+
+        this.showLabels = false;
     }
+
 }
