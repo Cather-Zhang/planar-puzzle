@@ -5,13 +5,14 @@ import { layout } from './Layout.js';
 import { redrawCanvas } from './boundary/Boundary.js'
 import Model from './model/Model.js';
 import {configuration_1, configuration_2, configuration_3} from './model/Puzzle.js';
+import {selectSquare} from './controller/Controller.js';
 
 var level1 = JSON.parse(JSON.stringify(configuration_1));
 var level2 = JSON.parse(JSON.stringify(configuration_2));
 var level3 = JSON.parse(JSON.stringify(configuration_3));
 
 function App() {
-  const [model, setModel] = React.useState(new Model(level2));
+  const [model, setModel] = React.useState(new Model(level1));
   const appRef = React.useRef(null);
   const canvasRef = React.useRef(null);
 
@@ -19,6 +20,11 @@ function App() {
     redrawCanvas(model, canvasRef.current, appRef.current);
   }, [model]);
 
+  const handleClick = (e) => {
+    console.log("clicked")
+    let newModel = selectSquare(model, canvasRef.current, e);
+    setModel(newModel);
+  }
 
 
   return(
@@ -27,12 +33,13 @@ function App() {
               className="App-canvas"
               ref={canvasRef}
               width={layout.canvas.width}
-              height={layout.canvas.height}>
+              height={layout.canvas.height}
+              onClick = {handleClick}
+              />
 
-      </canvas>
       <label style={layout.text}>message</label>
       <div style={layout.buttons}>
-          <button style={layout.upbutton}   >^</button>
+          <button style={layout.upbutton} >^</button>
           <button style={layout.leftbutton}  >&lt;</button>
           <button style={layout.rightbutton} >&gt;</button>
           <button style={layout.downbutton}  >v</button>

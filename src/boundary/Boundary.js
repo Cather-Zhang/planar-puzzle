@@ -13,6 +13,11 @@ export class Rectangle {
         this.width = width;
         this.height = height;
     }
+
+    //If (x,y) is contained in the rectangle
+    contains(x, y) {
+        return x >= this.x && x <= (this.x + this.width) && y >= this.y && y <= (this.y + this.height);
+    }
 }
 
 /**
