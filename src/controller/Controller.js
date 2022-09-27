@@ -26,3 +26,11 @@ export function selectSquare(model, canvas, event) {
     return model.copy();
 
 }
+
+
+export function extend(model, dir) {
+    let selected = model.puzzle.selected;
+    if (!selected) {return model;}
+    model.puzzle.extend();
+    return model.copy();
+}

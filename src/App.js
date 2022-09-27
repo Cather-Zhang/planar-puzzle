@@ -5,7 +5,8 @@ import { layout } from './Layout.js';
 import { redrawCanvas } from './boundary/Boundary.js'
 import Model from './model/Model.js';
 import {configuration_1, configuration_2, configuration_3} from './model/Puzzle.js';
-import {selectSquare} from './controller/Controller.js';
+import {selectSquare, extend} from './controller/Controller.js';
+import {Up, Down, Left, Right} from './model/Model.js';
 
 var level1 = JSON.parse(JSON.stringify(configuration_1));
 var level2 = JSON.parse(JSON.stringify(configuration_2));
@@ -25,6 +26,11 @@ function App() {
     setModel(newModel);
   }
 
+  const extendHandler = (direction) => {
+    let newModel = extend(model, direction);
+    setModel(newModel);
+  }
+
 
   return(
     <main style={layout.Appmain} ref={appRef}>
@@ -38,10 +44,25 @@ function App() {
 
       <label style={layout.text}>message</label>
       <div style={layout.buttons}>
-          <button style={layout.upbutton} >^</button>
-          <button style={layout.leftbutton}  >&lt;</button>
-          <button style={layout.rightbutton} >&gt;</button>
-          <button style={layout.downbutton}  >v</button>
+          <button style={layout.upbutton} 
+                  onClick={(e) => extendHandler(Up)} 
+                  disabled={!model.puzzle.canExtend(Up)}>^
+          </button>
+
+          <button style={layout.leftbutton} 
+                  onClick={(e) => extendHandler(Left)} 
+                  disabled={!model.puzzle.canExtend(Left)}>&lt;
+          </button>
+
+          <button style={layout.rightbutton} 
+                  onClick={(e) => extendHandler(Right)} 
+                  disabled={!model.puzzle.canExtend(Right)} >&gt;
+          </button>
+
+          <button style={layout.downbutton} 
+                  onClick={(e) => extendHandler(Down)} 
+                  disabled={!model.puzzle.canExtend(Down)} >v
+          </button>
       </div>
 
     </main>

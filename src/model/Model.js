@@ -9,16 +9,7 @@ export class MoveType {
     constructor(dr, dc) {
         this.deltar = dr;
         this.deltac = dc;
-    }
-    
-    static parse(s) {
-        if ((s === "down")  || (s === "Down"))   { return Down; }
-        if ((s === "up")    || (s === "Up"))     { return Up; }
-        if ((s === "left")  || (s === "Left"))   { return Left; }
-        if ((s === "right") || (s === "Right"))  { return Right; }
-        
-        return NoMove;
-    }
+    }  
 }
 
 export const Down = new MoveType(1, 0, "down");
@@ -53,8 +44,12 @@ export class Puzzle {
         this.selected = null;
         this.squares = this.init();
     }
-    select(selected) {
-        this.selected = selected;
+    select(piece) {
+        this.selected = piece;
+    }
+
+    isSelected(piece) {
+        return this.selected === piece;
     }
 
     initialize(squares) {
@@ -72,6 +67,10 @@ export class Puzzle {
         return allSquares;
     }
 
+    /**
+     * clone the puzzle to pass into the new model created for setModel
+     * @returns 
+     */
     clone() {
         let copy = new Puzzle(this.rowNum, this.colNum);
         copy.squares = [];
@@ -84,6 +83,35 @@ export class Puzzle {
         }
         return copy;
     }
+
+    /**
+     * Extend color of the selected piece to neighbor square in given direction
+     * @param {*} dir 
+     */
+    extend(dir) {
+
+    }
+
+
+    /**
+     * check if we can extend or not, return true if the 
+     * neighbor of the selected piece in the direction
+     * has color white 
+     * @param {*} dir MoveType
+     */
+    canExtend(dir) {
+
+    }
+
+
+    /**
+     * get the neighbor square of the selected square in given direction
+     * @param {*} dir 
+     */
+    getNeighbor(dir) {
+
+    }
+
 }
 
 export default class Model {
