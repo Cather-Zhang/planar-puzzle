@@ -41,9 +41,14 @@ export function redrawCanvas(model, canvasObj, appObj) {
     //clear the canvas area
     ctx.clearRect(0,0,canvasObj.width, canvasObj.height)
   
-    if (model.puzzle) {
+    if (model.puzzle && !model.victory) {
 
         drawPuzzle(ctx, model.level, model.puzzle, model.showLabels);
+    }
+    else {
+        ctx.fillStyle = "red";
+        ctx.font = "30px Arial";
+        ctx.fillText("Congrats! You have won the puzzle!",40,220);
     }
     
 
@@ -62,7 +67,6 @@ export function drawPuzzle(ctx, level, puzzle, showLabels) {
         ctx.fillStyle = square.color;
         ctx.fillRect(rect.x, rect.y, rect.width, rect.height);
         let label = "";
-        //console.log(square.label);
         if (square.label === "" && !(square.count === 0)) {
             label = square.count;
         }

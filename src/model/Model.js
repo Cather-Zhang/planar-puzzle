@@ -54,11 +54,10 @@ export class Puzzle {
         return this.selected === piece;
     }
 
-    initialize(squares) {
-        // make sure to create NEW Piece objects
-        this.squares = squares.map(s => s.copy());
-    }
-
+    /**
+     * initialize all squares as blank ones
+     * @returns 
+     */
     init() {
         var allSquares = [];
         for (let row = 0; row < this.rowNum; row++) {
@@ -162,7 +161,6 @@ export default class Model {
         this.level = parseInt(info.level);
 
         this.showLabels = false;
-        //console.log(this.puzzle.squares);
     }
 
     copy() {
@@ -176,5 +174,26 @@ export default class Model {
 
     isLevel(num) {
         return this.level === num;
+    }
+
+    isWin() {
+        let maxOne = 0;
+        if (this.level === 1) {
+            maxOne = 2;
+        }
+        else {
+            maxOne = 3;
+        }
+        let countOne = 0;
+        for (let s of this.puzzle.squares) {
+            if (s.color === "white") {return false;}
+            if (s.count === 1) {countOne += 1;}
+        }
+        
+        if (countOne > maxOne) {return false;}
+        else {
+            this.victory = true;
+            return true;
+        }
     }
 }

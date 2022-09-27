@@ -1,10 +1,10 @@
 import React from 'react';
-import logo from './logo.svg';
+//import logo from './logo.svg';
 import './App.css';
 import { layout } from './Layout.js';
 import { redrawCanvas } from './boundary/Boundary.js'
 import Model from './model/Model.js';
-import {configuration_1, configuration_2, configuration_3} from './model/Puzzle.js';
+import {configuration_1} from './model/Puzzle.js';
 import {selectSquare, extend, reset} from './controller/Controller.js';
 import {Up, Down, Left, Right} from './model/Model.js';
 
@@ -13,6 +13,7 @@ var level1 = JSON.parse(JSON.stringify(configuration_1));
 //var level3 = JSON.parse(JSON.stringify(configuration_3));
 
 function App() {
+  //default to level 1
   const [model, setModel] = React.useState(new Model(level1));
   const appRef = React.useRef(null);
   const canvasRef = React.useRef(null);

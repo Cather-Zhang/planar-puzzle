@@ -50,6 +50,7 @@ export function extend(model, dir) {
     let selected = model.puzzle.selected;
     if (!selected) {return model;}
     model.puzzle.extend(dir);
+    model.isWin();
     return model.copy();
 }
 
