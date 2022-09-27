@@ -173,4 +173,8 @@ export default class Model {
         m.level = this.level;
         return m;
     }
+
+    isLevel(num) {
+        return this.level === num;
+    }
 }

@@ -38,6 +38,34 @@ export const layout = {
         top: 25
     },
 
+    resetButtons : {
+        position: "absolute",
+        left: 640,
+        top: 190
+    },
+
+    level1button : {
+        position: "absolute",
+
+    },
+
+    level2button : {
+        position: "absolute",
+        top: 35
+    },
+
+    level3button : {
+        position: "absolute",
+        top: 70
+    },
+
+    resetbutton : {
+        position: "absolute",
+        top: 105,
+        left: 3
+    },
+
+
     text: {
         position: "absolute",
         left: 530,

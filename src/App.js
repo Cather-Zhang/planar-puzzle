@@ -5,15 +5,15 @@ import { layout } from './Layout.js';
 import { redrawCanvas } from './boundary/Boundary.js'
 import Model from './model/Model.js';
 import {configuration_1, configuration_2, configuration_3} from './model/Puzzle.js';
-import {selectSquare, extend} from './controller/Controller.js';
+import {selectSquare, extend, reset} from './controller/Controller.js';
 import {Up, Down, Left, Right} from './model/Model.js';
 
 var level1 = JSON.parse(JSON.stringify(configuration_1));
-var level2 = JSON.parse(JSON.stringify(configuration_2));
-var level3 = JSON.parse(JSON.stringify(configuration_3));
+//var level2 = JSON.parse(JSON.stringify(configuration_2));
+//var level3 = JSON.parse(JSON.stringify(configuration_3));
 
 function App() {
-  const [model, setModel] = React.useState(new Model(level3));
+  const [model, setModel] = React.useState(new Model(level1));
   const appRef = React.useRef(null);
   const canvasRef = React.useRef(null);
 
@@ -31,6 +31,11 @@ function App() {
     setModel(newModel);
   }
 
+  const resetHandler = (levelNum) => {
+    let newModel = reset(model, levelNum);
+    setModel(newModel);
+  }
+
 
   return(
     <main style={layout.Appmain} ref={appRef}>
@@ -42,7 +47,6 @@ function App() {
               onClick = {handleClick}
               />
 
-      <label style={layout.text}>message</label>
       <div style={layout.buttons}>
           <button style={layout.upbutton} 
                   onClick={(e) => extendHandler(Up)} 
@@ -63,6 +67,30 @@ function App() {
                   onClick={(e) => extendHandler(Down)} 
                   disabled={!model.puzzle.canExtend(Down)} >v
           </button>
+      </div>
+
+      <div style={layout.resetButtons}>
+          <button style={layout.level1button} 
+                  onClick={(e) => resetHandler(1)}
+                  disabled={model.isLevel(1)} 
+                  >Level1
+          </button>
+          <button style={layout.level2button} 
+                  onClick={(e) => resetHandler(2)} 
+                  disabled={model.isLevel(2)} 
+                  >Level2
+          </button>
+          <button style={layout.level3button} 
+                  onClick={(e) => resetHandler(3)} 
+                  disabled={model.isLevel(3)} 
+                  >Level3
+          </button>
+
+          <button style={layout.resetbutton} 
+                  onClick={(e) => resetHandler(0)} 
+                  >Reset
+          </button>
+
       </div>
 
     </main>
