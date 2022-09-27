@@ -95,6 +95,7 @@ export class Puzzle {
         if (this.canExtend(dir)) {
             neighbor.color = this.selected.color;
             neighbor.count = this.selected.count + 1;
+            this.selected = neighbor;
         }
     }
 
