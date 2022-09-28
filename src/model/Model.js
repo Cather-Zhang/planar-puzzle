@@ -131,6 +131,38 @@ export class Puzzle {
         return this.squares[r * this.colNum + c];
     }
 
+    isNeighbor(s1, s2) {
+        let rowDiff = Math.abs(s1.row - s2.row);
+        let colDiff = Math.abs(s1.column - s2.column);
+        console.log("diff: " + rowDiff + " " + colDiff);
+        return (rowDiff === 1 && colDiff === 0) || (rowDiff === 0 && colDiff === 1);
+    }
+
+    /**
+     * Get the two base squares of given color
+     * For checking victory and see if base color 
+     * neighbor is the one with highest count
+     * @param {*} color 
+     * @returns 
+     */
+    getBaseSquares(color) {
+        let returnArr = [];
+        for (let s of this.squares) {
+            if (s.color === color && !(s.label === "")) {
+                returnArr.push(s);
+            }
+        }
+        return returnArr;
+    }
+
+    getColorCount(color, count) {
+        for (let s of this.squares) {
+            if (s.color === color && s.count === count) {
+                return s;
+            }
+        }
+    }
+
 }
 
 export default class Model {
@@ -178,23 +210,87 @@ export default class Model {
     }
 
     isWin() {
-        let maxOne = 0;
-        if (this.level === 1) {
-            maxOne = 2;
-        }
-        else {
-            maxOne = 3;
-        }
-        let countOne = 0;
+        let redCount = [];
+        let orangeCount = [];
+        let blueCount = [];
+        let yellowCount = [];
+        const redBases = this.puzzle.getBaseSquares("red");
+        const orangeBases = this.puzzle.getBaseSquares("orange");
+        const blueBases = this.puzzle.getBaseSquares("blue");
+        const yellowBases = this.puzzle.getBaseSquares("yellow");
+        console.log(blueBases);
+        console.log(blueBases.length > 0);
+
+        let redR = true;
+        let blueR = true;
+        let orangeR = true;
+        let yellowR = true;
+
         for (let s of this.puzzle.squares) {
             if (s.color === "white") {return false;}
-            if (s.count === 1) {countOne += 1;}
+            if (!(s.label === "")) {continue;}
+            else if (s.color === "red" && s.label === "") {
+                if (redCount.includes(s.count)) {
+                    return false;
+                }
+                else {
+                    redCount.push(s.count);
+                }
+            }
+            else if (s.color === "orange" && s.label === "") {
+                if (orangeCount.includes(s.count)) {
+                    return false;
+                }
+                else {
+                    orangeCount.push(s.count);
+                }
+            }
+            else if (s.color === "blue" && s.label === "") {
+                if (blueCount.includes(s.count)) {
+                    return false;
+                }
+                else {
+                    blueCount.push(s.count);
+                }
+            }
+            else if (s.color === "yellow" && s.label === "") {
+                if (yellowCount.includes(s.count)) {
+                    return false;
+                }
+                else {
+                    yellowCount.push(s.count);
+                }
+            }
         }
-        
-        if (countOne > maxOne) {return false;}
-        else {
+        function compare(a, b) {
+            return a-b;
+        }
+        if (redBases.length > 0) {
+            redCount.sort(compare);
+            console.log(redCount);
+            redR = (this.puzzle.isNeighbor(redBases[0], this.puzzle.getColorCount("red", redCount[redCount.length - 1])))
+            || (this.puzzle.isNeighbor(redBases[1], this.puzzle.getColorCount("red", redCount[redCount.length - 1])))
+        }
+        if (orangeBases.length>0) {
+            orangeCount.sort(compare);
+            orangeR = (this.puzzle.isNeighbor(orangeBases[0], this.puzzle.getColorCount("orange", orangeCount[orangeCount.length - 1])))
+            || (this.puzzle.isNeighbor(orangeBases[1], this.puzzle.getColorCount("orange", orangeCount[orangeCount.length - 1])))
+        }
+        if (blueBases.length > 0) {
+            blueCount.sort(compare);
+            blueR = (this.puzzle.isNeighbor(blueBases[0], this.puzzle.getColorCount("blue", blueCount[blueCount.length - 1])))
+            || (this.puzzle.isNeighbor(blueBases[1], this.puzzle.getColorCount("blue", blueCount[blueCount.length - 1])))
+        }
+        if (yellowBases.length > 0) {
+            yellowCount.sort(compare);
+            yellowR = (this.puzzle.isNeighbor(yellowBases[0], this.puzzle.getColorCount("yellow", yellowCount[yellowCount.length - 1])))
+            || (this.puzzle.isNeighbor(yellowBases[1], this.puzzle.getColorCount("yellow", yellowCount[yellowCount.length - 1])))
+        }
+        if (redR && orangeR && blueR && yellowR){
             this.victory = true;
             return true;
         }
+        else return false;
+            
     }
 }

@@ -28,7 +28,12 @@ export function selectSquare(model, canvas, event) {
     let selected = null;
     //console.log(idx);
     if (idx >= 0) {
-        selected = model.puzzle.squares[idx];
+        if (model.puzzle.squares[idx].color === "black") {
+            selected = null;
+        }
+        else {
+            selected = model.puzzle.squares[idx];
+        }
         //console.log("selected square: ");
         //console.log(selected);
     }
