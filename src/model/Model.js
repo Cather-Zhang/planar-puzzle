@@ -134,7 +134,7 @@ export class Puzzle {
     isNeighbor(s1, s2) {
         let rowDiff = Math.abs(s1.row - s2.row);
         let colDiff = Math.abs(s1.column - s2.column);
-        console.log("diff: " + rowDiff + " " + colDiff);
+        //console.log("diff: " + rowDiff + " " + colDiff);
         return (rowDiff === 1 && colDiff === 0) || (rowDiff === 0 && colDiff === 1);
     }
 
@@ -193,13 +193,11 @@ export default class Model {
         this.victory = false;
         this.level = parseInt(info.level);
 
-        this.showLabels = false;
     }
 
     copy() {
         let m = new Model(this.info);
         m.puzzle = this.puzzle.clone();
-        m.showLabels = this.showLabels;
         m.victory = this.victory;
         m.level = this.level;
         return m;
@@ -218,8 +216,6 @@ export default class Model {
         const orangeBases = this.puzzle.getBaseSquares("orange");
         const blueBases = this.puzzle.getBaseSquares("blue");
         const yellowBases = this.puzzle.getBaseSquares("yellow");
-        console.log(blueBases);
-        console.log(blueBases.length > 0);
 
         let redR = true;
         let blueR = true;
@@ -227,9 +223,15 @@ export default class Model {
         let yellowR = true;
 
         for (let s of this.puzzle.squares) {
+            //if there is any squares that is not filled, return false immediatly
             if (s.color === "white") {return false;}
+
+            //skip the base squares
             if (!(s.label === "")) {continue;}
-            else if (s.color === "red" && s.label === "") {
+
+            //save the count for each color square in an array
+            if (s.color === "red" && s.label === "") {
+                //there should be no duplicate count number
                 if (redCount.includes(s.count)) {
                     return false;
                 }
@@ -262,12 +264,15 @@ export default class Model {
                 }
             }
         }
+        //for array sorting 
         function compare(a, b) {
             return a-b;
         }
+
+        //if base squares exist on board
         if (redBases.length > 0) {
             redCount.sort(compare);
-            console.log(redCount);
+            //check if the square with highest count is next to base square
             redR = (this.puzzle.isNeighbor(redBases[0], this.puzzle.getColorCount("red", redCount[redCount.length - 1])))
             || (this.puzzle.isNeighbor(redBases[1], this.puzzle.getColorCount("red", redCount[redCount.length - 1])))
         }
@@ -286,6 +291,7 @@ export default class Model {
             yellowR = (this.puzzle.isNeighbor(yellowBases[0], this.puzzle.getColorCount("yellow", yellowCount[yellowCount.length - 1])))
             || (this.puzzle.isNeighbor(yellowBases[1], this.puzzle.getColorCount("yellow", yellowCount[yellowCount.length - 1])))
         }
+
         if (redR && orangeR && blueR && yellowR){
             this.victory = true;
             return true;

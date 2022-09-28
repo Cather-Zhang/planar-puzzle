@@ -43,7 +43,7 @@ export function redrawCanvas(model, canvasObj, appObj) {
   
     if (model.puzzle && !model.victory) {
 
-        drawPuzzle(ctx, model.level, model.puzzle, model.showLabels);
+        drawPuzzle(ctx, model.level, model.puzzle);
     }
     else {
         ctx.fillStyle = "red";
@@ -54,7 +54,7 @@ export function redrawCanvas(model, canvasObj, appObj) {
 
 }
 
-export function drawPuzzle(ctx, level, puzzle, showLabels) {
+export function drawPuzzle(ctx, level, puzzle) {
     let nr = puzzle.rowNum;
     let nc = puzzle.colNum;
 

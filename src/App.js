@@ -42,6 +42,7 @@ function App() {
     <main style={layout.Appmain} ref={appRef}>
       <canvas tabIndex="1"
               className="App-canvas"
+              data-testid="canvas"
               ref={canvasRef}
               width={layout.canvas.width}
               height={layout.canvas.height}
@@ -50,21 +51,25 @@ function App() {
 
       <div style={layout.buttons}>
           <button style={layout.upbutton} 
+                  data-testid="upbutton"
                   onClick={(e) => extendHandler(Up)} 
                   disabled={!model.puzzle.canExtend(Up)}>^
           </button>
 
           <button style={layout.leftbutton} 
+                  data-testid="leftbutton"
                   onClick={(e) => extendHandler(Left)} 
                   disabled={!model.puzzle.canExtend(Left)}>&lt;
           </button>
 
-          <button style={layout.rightbutton} 
+          <button style={layout.rightbutton}
+                  data-testid="rightbutton" 
                   onClick={(e) => extendHandler(Right)} 
                   disabled={!model.puzzle.canExtend(Right)} >&gt;
           </button>
 
           <button style={layout.downbutton} 
+                  data-testid="downbutton"
                   onClick={(e) => extendHandler(Down)} 
                   disabled={!model.puzzle.canExtend(Down)} >v
           </button>
@@ -72,22 +77,26 @@ function App() {
 
       <div style={layout.resetButtons}>
           <button style={layout.level1button} 
+                  data-testid="l1button"
                   onClick={(e) => resetHandler(1)}
                   disabled={model.isLevel(1)} 
                   >Level1
           </button>
           <button style={layout.level2button} 
+                  data-testid="l2button"
                   onClick={(e) => resetHandler(2)} 
                   disabled={model.isLevel(2)} 
                   >Level2
           </button>
           <button style={layout.level3button} 
+                  data-testid="l3button"
                   onClick={(e) => resetHandler(3)} 
                   disabled={model.isLevel(3)} 
                   >Level3
           </button>
 
           <button style={layout.resetbutton} 
+                  data-testid="resetbutton"
                   onClick={(e) => resetHandler(0)} 
                   >Reset
           </button>
