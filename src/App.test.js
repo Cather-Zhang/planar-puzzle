@@ -3,7 +3,7 @@ import { render, screen, fireEvent } from '@testing-library/react';
 import App from './App';
 import Model from './model/Model.js'
 import {Up, Down, Left, Right} from './model/Model.js'
-import {extend} from './controller/Controller.js'
+import {extend, selectSquare} from './controller/Controller.js'
 
 
 import { configuration_1, configuration_2, configuration_3 } from './model/Puzzle.js'
@@ -41,6 +41,7 @@ test('First valid extend', () => {
   expect(newModel.isWin()).toBe(false);
 });
 
+
 test('copy model', () => {
   var model = new Model(level1);
   var redBase = model.puzzle.squares[0];
@@ -66,7 +67,7 @@ test('Solve puzzle 1', () => {
   expect(model.isWin()).toBe(true);
 })
 
-test('not solve puzzle 1: duplicate count', () => {
+test('not solve puzzle 1: duplicate count red', () => {
   var model = new Model(level1);
   var redBase1 = model.puzzle.squares[0];
   var redBase2 = model.puzzle.squares[2];
@@ -81,6 +82,95 @@ test('not solve puzzle 1: duplicate count', () => {
   var orangeBase = model.puzzle.squares[3];
   model.puzzle.select(orangeBase);
   model.puzzle.extend(Down);
+
+  expect(model.isWin()).toBe(false);
+})
+
+test('not solve puzzle 1: duplicate count orange', () => {
+  var model = new Model(level1);
+  var redBase = model.puzzle.squares[0];
+  var orangeBase = model.puzzle.squares[6];
+  model.puzzle.select(redBase);
+  model.puzzle.extend(Right);
+
+  model.puzzle.select(orangeBase);
+  model.puzzle.extend(Left);
+  model.puzzle.extend(Left);
+
+  model.puzzle.select(orangeBase);
+  model.puzzle.extend(Right);
+
+  expect(model.isWin()).toBe(false);
+})
+
+test('not solve puzzle 2: duplicate count blue and yellow', () => {
+  var model = new Model(level2);
+  var redBase = model.puzzle.squares[1];
+  var blueBase1 = model.puzzle.squares[2];
+  var blueBase2 = model.puzzle.squares[5];
+
+  var yellowBase1 = model.puzzle.squares[12];
+  var yellowBase2 = model.puzzle.squares[28];
+
+  const redStep = [Left, Down, Down, Down, Right, Up, Right, Down, Right, Up]
+  const blue1Step = [Down, Right]
+  const blue2Step = [Left, Left]
+
+  const yellow1Step = [Right, Right, Right, Up, Left]
+  const yellow2Step = [Right, Right, Right, Up, Left, Left]
+
+  model.puzzle.select(redBase);
+  redStep.forEach(function(dir) {
+    model.puzzle.extend(dir);
+  })
+
+  model.puzzle.select(blueBase1);
+  blue1Step.forEach(function(dir) {
+    model.puzzle.extend(dir);
+  })
+
+  model.puzzle.select(blueBase2);
+  blue2Step.forEach(function(dir) {
+    model.puzzle.extend(dir);
+  })
+
+  model.puzzle.select(yellowBase1);
+  yellow1Step.forEach(function(dir) {
+    model.puzzle.extend(dir);
+  })
+
+  model.puzzle.select(yellowBase2);
+  yellow2Step.forEach(function(dir) {
+    model.puzzle.extend(dir);
+  })
+
+  expect(model.isWin()).toBe(false);
+})
+
+test('not solving puzzle 2, last square not next to neighbor', () => {
+  var model = new Model(level2);
+  var redBase = model.puzzle.squares[1];
+  var blueBase = model.puzzle.squares[2];
+  var yellowBase = model.puzzle.squares[12];
+
+  const redStep = [Left, Down, Down, Down, Right, Up, Right, Down, Right, Up]
+  const blueStep = [Down, Right, Up, Right]
+  const yellowStep = [Right, Right, Up, Right, Down, Down, Down, Left, Left, Left, Up, Right]
+
+  model.puzzle.select(redBase);
+  redStep.forEach(function(dir) {
+    model.puzzle.extend(dir);
+  })
+
+  model.puzzle.select(blueBase);
+  blueStep.forEach(function(dir) {
+    model.puzzle.extend(dir);
+  })
+
+  model.puzzle.select(yellowBase);
+  yellowStep.forEach(function(dir) {
+    model.puzzle.extend(dir);
+  })
 
   expect(model.isWin()).toBe(false);
 })

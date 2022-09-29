@@ -269,27 +269,37 @@ export default class Model {
             return a-b;
         }
 
+
+        /**
+         * return if the last extended square is next to a base square
+         * @param {*} baseArr 
+         * @param {*} countArr 
+         */
+        function checkLastExtendNeighbor(model, baseArr, countArr) {
+            return (model.puzzle.isNeighbor(baseArr[0], model.puzzle.getColorCount(baseArr[0].color, countArr[countArr.length - 1])))
+            || (model.puzzle.isNeighbor(baseArr[1], model.puzzle.getColorCount(baseArr[0].color, countArr[countArr.length - 1])));
+        }
+
+
         //if base squares exist on board
         if (redBases.length > 0) {
             redCount.sort(compare);
             //check if the square with highest count is next to base square
-            redR = (this.puzzle.isNeighbor(redBases[0], this.puzzle.getColorCount("red", redCount[redCount.length - 1])))
-            || (this.puzzle.isNeighbor(redBases[1], this.puzzle.getColorCount("red", redCount[redCount.length - 1])))
+            redR = checkLastExtendNeighbor(this, redBases, redCount);
         }
         if (orangeBases.length>0) {
             orangeCount.sort(compare);
-            orangeR = (this.puzzle.isNeighbor(orangeBases[0], this.puzzle.getColorCount("orange", orangeCount[orangeCount.length - 1])))
-            || (this.puzzle.isNeighbor(orangeBases[1], this.puzzle.getColorCount("orange", orangeCount[orangeCount.length - 1])))
+            orangeR = checkLastExtendNeighbor(this, orangeBases, orangeCount);
         }
+        
         if (blueBases.length > 0) {
             blueCount.sort(compare);
-            blueR = (this.puzzle.isNeighbor(blueBases[0], this.puzzle.getColorCount("blue", blueCount[blueCount.length - 1])))
-            || (this.puzzle.isNeighbor(blueBases[1], this.puzzle.getColorCount("blue", blueCount[blueCount.length - 1])))
+            blueR = checkLastExtendNeighbor(this, blueBases, blueCount);
+        
         }
         if (yellowBases.length > 0) {
             yellowCount.sort(compare);
-            yellowR = (this.puzzle.isNeighbor(yellowBases[0], this.puzzle.getColorCount("yellow", yellowCount[yellowCount.length - 1])))
-            || (this.puzzle.isNeighbor(yellowBases[1], this.puzzle.getColorCount("yellow", yellowCount[yellowCount.length - 1])))
+            yellowR = checkLastExtendNeighbor(this, yellowBases, yellowCount);
         }
 
         if (redR && orangeR && blueR && yellowR){
